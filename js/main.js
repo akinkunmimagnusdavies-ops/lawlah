@@ -64,7 +64,7 @@ function updateCartUI(){
   const total = cart.reduce((sum,i)=>sum+i.price*i.qty,0);
   cartTotalSpan.innerText = total.toLocaleString();
   
-  const waText = `Hi LAWLAH_PRO, I want to order:\n${cart.map(c=>`- ${c.name} x${c.qty}`).join('\n')}\nTotal: ₦${total.toLocaleString()}`;
+  const waText = `Hi LAWLAH_PRO, I am placing an order for:\n${cart.map(c=>`- ${c.name} x${c.qty}`).join('\n')}\nTotal: ₦${total.toLocaleString()}`;
   document.getElementById('checkoutWA').href = `https://wa.me/2349156002887?text=${encodeURIComponent(waText)}`;
 }
 
