@@ -38,25 +38,40 @@ locationRadios.forEach(r => r.addEventListener('change', renderServices));
 renderServices(); // initial render
 
 // 3. CART LOGIC
-let cart = JSON.parse(localStorage.getItem('lawlahCart') || '[]');
+// 3. CART LOGIC - FIXED
+let cart = JSON.parse(localStorage.getItem('lawlahCart')) || [];
 const cartCount = document.getElementById('cartCount');
 const cartBox = document.getElementById('cartBox');
 const cartItemsDiv = document.getElementById('cartItems');
 const cartTotalSpan = document.getElementById('cartTotal');
 
 function updateCartUI(){
+  // ALWAYS save first
+  localStorage.setItem('lawlahCart', JSON.stringify(cart));
+  
   cartCount.innerText = cart.reduce((sum,i)=>sum+i.qty,0);
-  if(cart.length===0){ cartBox.style.display='none'; return; }
+  
+  if(cart.length===0){ 
+    cartBox.style.display='none'; 
+    cartItemsDiv.innerHTML = '';
+    cartTotalSpan.innerText = '0';
+    cartCount.innerText = '0';
+    return; 
+  }
+  
   cartBox.style.display='block';
-  cartItemsDiv.innerHTML = cart.map(c => `${c.name} x${c.qty} = ₦${(c.price*c.qty).toLocaleString()} <button onclick="removeFromCart(${c.id})" style="margin-left:8px;color:red;border:none;background:none;cursor:pointer">x</button>`).join('<br>');
+  cartItemsDiv.innerHTML = cart.map(c => `${c.name} x${c.qty} = ₦${(c.price*c.qty).toLocaleString()} <button onclick="removeFromCart(${c.id})" style="margin-left:8px;color:red;border:none;background:none;cursor:pointer">remove</button>`).join('<br>');
   const total = cart.reduce((sum,i)=>sum+i.price*i.qty,0);
   cartTotalSpan.innerText = total.toLocaleString();
-  localStorage.setItem('lawlahCart', JSON.stringify(cart));
-  // Update WA checkout link
+  
   const waText = `Hi LAWLAH_PRO, I want to order:\n${cart.map(c=>`- ${c.name} x${c.qty}`).join('\n')}\nTotal: ₦${total.toLocaleString()}`;
   document.getElementById('checkoutWA').href = `https://wa.me/2349156002887?text=${encodeURIComponent(waText)}`;
 }
-function removeFromCart(id){ cart = cart.filter(c=>c.id!=id); updateCartUI(); }
+
+function removeFromCart(id){ 
+  cart = cart.filter(c=>c.id!=id); 
+  updateCartUI(); 
+}
 
 document.querySelectorAll('.card').forEach(card=>{
   const btn = card.querySelector('.ATC');
