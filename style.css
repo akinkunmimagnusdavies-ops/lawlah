@@ -78,7 +78,7 @@ section{ padding: var(--BIG-PADD); }
 }
 @keyframes bounce{
   0%,100%{transform: translateY(0)}
-  50%{transform: translateY(6px)}
+  50%{transform: translateY(10px)}
 }
 form{ display:flex; flex-direction:column; gap:12px; max-width:460px; margin:25px auto; background:#1a1a1a; padding:25px; border-radius:15px; }
 .location-box{
@@ -115,6 +115,7 @@ form{ display:flex; flex-direction:column; gap:12px; max-width:460px; margin:25p
 input,select{ padding:12px; border-radius:8px; border:none; outline:none; width:100%; }
 #bookBtn{ background: var(--YELLOW); font-weight:700; cursor:pointer; border:none; padding:12px; border-radius:10px; }
 footer{ background:#000; text-align:center; padding:30px; color:#888; }
+footer p{margin: 4px; font-size: 14px;}
 
 @media(max-width:768px){
   .nav-links{
